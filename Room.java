@@ -51,8 +51,40 @@ public class Room
             westExit = west;
     }
 
-    /**
-     * @return The description of the room.
+    public Room getExits(String description) 
+    {
+       if(description.equals("north")  ){
+          return northExit;
+        }
+        if(description.equals("east") ) {
+        return eastExit;
+        }
+        if(description.equals("south") ) {
+        return southExit;
+        }
+        if(description.equals("west")) {
+        return westExit;
+        }
+        return null;
+    }
+   
+    public void printLocationInfo(){
+
+            System.out.println("You are " + description);
+            System.out.print("Exits: ");
+            if(northExit != null)
+                System.out.print("north "+northExit.description);
+            if(eastExit != null)
+                System.out.print("east "+eastExit.description);
+            if(southExit != null)
+                System.out.print("south "+southExit.description);
+            if(westExit != null)
+                System.out.print("west "+westExit.description);
+            System.out.println();
+    
+        }
+    
+     /* @return The description of the room.
      */
     public String getDescription()
     {
