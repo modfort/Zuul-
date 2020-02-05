@@ -50,7 +50,7 @@ public class Command
      * second word.
      */
     public String getSecondWord()
-    {
+   {
         return secondWord;
     }
 

@@ -104,9 +104,12 @@ public class Game
             printHelp();
         else if (commandWord.equals("go"))
             goRoom(command);
+        else if (commandWord.equals("look"))
+           look();
+        else if (commandWord.equals("eat"))
+           eat();
         else if (commandWord.equals("quit"))
             wantToQuit = quit(command);
-
         return wantToQuit;
     }
 
@@ -121,9 +124,9 @@ public class Game
     {
         System.out.println("You are lost. You are alone. You wander");
         System.out.println("around at the university.");
-        System.out.println();
+        System.out.println();   
         System.out.println("Your command words are:");
-        System.out.println("   go quit help");
+        System.out.println("   go quit help look eat");
     }
 
     /** 
@@ -163,7 +166,14 @@ public class Game
             currentRoom.printLocationInfo();
         }
     }
-
+    private void look() 
+    {   
+        System.out.println(currentRoom.getDescription());
+    }
+    private void eat()
+    {
+        System.out.println("we have eat some meat");
+    }
     /** 
      * "Quit" was entered. Check the rest of the command to see
      * whether we really quit the game.
@@ -179,4 +189,7 @@ public class Game
             return true;  // signal that we want to quit
         }
     }
+    
+    
+
 }
