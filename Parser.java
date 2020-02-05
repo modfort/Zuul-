@@ -63,4 +63,19 @@ public class Parser
             return new Command(null, word2); 
         }
     }
+    public void showAll()
+        {
+                
+            for(String command : commands.  validCommands) {
+            System.out.print(command + " ");
+         }        
+    }
+    public String GetAllCommand()
+    {   String comandlist=new String();
+
+                
+            for(String command : commands.  validCommands) 
+                comandlist+=command + " ";
+          return comandlist;
+    }
 }
