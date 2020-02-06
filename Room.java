@@ -1,3 +1,6 @@
+import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
 /**
  * Class Room - a room in an adventure game.
  *
@@ -19,6 +22,7 @@ public class Room
     public Room southExit;
     public Room eastExit;
     public Room westExit;
+    private List<Item> item;
 
     /**
      * Create a room described "description". Initially, it has
@@ -50,7 +54,15 @@ public class Room
         if(west != null)
             westExit = west;
     }
+    public void SetItem(List<Item>e)
+    {
+        item=e;
+    }
 
+    public void AddItem(Item e)
+    {
+        item.add(e);
+    }
     public Room getExits(String description) 
     {
        if(description.equals("north")  ){
@@ -86,6 +98,8 @@ public class Room
     
      /* @return The description of the room.
      */
+
+
     public String getDescription()
     {
         return description;
