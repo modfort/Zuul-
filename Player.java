@@ -34,13 +34,27 @@ public class Player{
 		else
 		{			
 			item.add(ele);
-			weight+=ele.GetWeight();
+			weight  		+= ele.GetWeight();
 		}	
 	}
 
-	public Item DropItem(Item ele)
-	{	
+	public void ShowItem()
+	{
+		for (Item e : item) {
+			System.out.println(e.GetDescription());
+		}
+		System.out.println("you have a weight of "+weight);
+	}
+
+	public Item DropItem(String ele)
+	{	for(Item e : item)
+			if(e.GetDescription().equals(ele))
+			{	
+				weight -= e.GetWeight();
+				item.remove(item.indexOf(e));
+				return e;
+			}
 		item.remove(item.indexOf(ele));
-		return ele;
+		return null;
 	}
 } 

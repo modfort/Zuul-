@@ -136,8 +136,14 @@ public class Game
             showall();
         else if(commandWord.equals("printitem"))
             player.GetRoom().PrintItem();
+        else if(commandWord.equals("showitem"))
+                player.ShowItem();
         else if(commandWord.equals("undo"))
             undo();
+        else if(commandWord.equals("take"))
+            take(command);
+        else if (commandWord.equals("drop"))
+            drop(command);
         else if (commandWord.equals("quit"))
             wantToQuit = quit(command);
         return wantToQuit;
@@ -197,6 +203,35 @@ public class Game
             player.SetRoom(nextRoom); 
             player.GetRoom().printLocationInfo();
         }
+    }
+
+
+    private void take(Command command)
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("take what?");
+            return;
+        }
+       String item      = command.getSecondWord();
+       Item e           = player.GetRoom().DeleteItem(item);
+       if(e  ==  null)
+            return;
+        player.AddItem(e);
+
+
+    }
+
+    private  void drop(Command command)
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("drop what?");
+            return;
+        }
+       Item ele         = player.DropItem(command.getSecondWord());
+       player.GetRoom().AddItem(ele);
+
     }
     //-----------------------------------------------
 

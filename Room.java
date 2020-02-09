@@ -19,12 +19,12 @@ import java.util.ArrayList;
  */
 public class Room 
 {
-    public String description;
-    public Room northExit;
-    public Room southExit;
-    public Room eastExit;
-    public Room westExit;
-    List<Item> item ;
+    public String         description;
+    public Room           northExit;
+    public Room           southExit;
+    public Room           eastExit;
+    public Room           westExit;
+    private List<Item>    item ;
 
     /**
      * Create a room described "description". Initially, it has
@@ -34,8 +34,8 @@ public class Room
      */
     public Room(String description) 
     {
-        this.description = description;
-        item  = new ArrayList<Item>();
+        this.description  = description;
+        item              = new ArrayList<Item>();
     }
 
     /**
@@ -49,17 +49,17 @@ public class Room
     public void setExits(Room north, Room east, Room south, Room west) 
     {
         if(north != null)
-            northExit = north;
+            northExit       = north;
         if(east != null)
-            eastExit = east;
+            eastExit        = east;
         if(south != null)
-            southExit = south;
+            southExit       = south;
         if(west != null)
-            westExit = west;
+            westExit        = west;
     }
     public void SetItem(List<Item>e)
     {
-        item=e;
+        item                = e;
     }
 
     public void AddItem(Item e)
@@ -107,10 +107,22 @@ public class Room
       if(this.item.isEmpty())
         System.out.println("the room doesnt have any item");
       for(Item e : this.item)
-        System.out.println(e.toString());
+        System.out.println(e.GetDescription());
       return 1;
     }
 
+    public Item DeleteItem(String des)
+    {
+      for (Item e : this.item ) {
+        if(e.GetDescription().equals(des))
+            { 
+               item.remove(item.indexOf(e));
+               return e;
+            }
+      }
+      System.out.println("we don't have this item");
+      return null;
+    }
      /* @return The description of the room.
      */
     public String getDescription()
