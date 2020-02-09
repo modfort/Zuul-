@@ -1,6 +1,11 @@
 import java.util.ArrayList;
+import java.util.ArrayDeque;
 import java.util.List;
-import java.util.ListIterator;/**
+import java.util.ListIterator;
+import java.util.Stack;
+import java.util.Deque;
+
+/**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
  *  can walk around some scenery. That's all. It should really be extended 
@@ -18,10 +23,10 @@ import java.util.ListIterator;/**
  */
 
 public class Game 
-{
+{   
     private Parser parser;
     private Room currentRoom;
-        
+    private Deque<Room> back ;
     /**
      * Create the game and initialise its internal map.
      */
@@ -29,6 +34,7 @@ public class Game
     {
         createRooms();
         parser = new Parser();
+        back   = new  ArrayDeque<Room>();
     }
 
     /**
@@ -127,6 +133,8 @@ public class Game
             showall();
         else if(commandWord.equals("printitem"))
             currentRoom.PrintItem();
+        else if(commandWord.equals("undo"))
+                undo();
         else if (commandWord.equals("quit"))
             wantToQuit = quit(command);
         return wantToQuit;
@@ -165,7 +173,8 @@ public class Game
         // Try to leave current room.
         Room nextRoom = null;
         if(direction.equals("north")) {
-            nextRoom = currentRoom.northExit;
+           nextRoom = currentRoom.northExit;
+
         }
         if(direction.equals("east")) {
             nextRoom = currentRoom.eastExit;
@@ -181,6 +190,7 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
+            back.push(currentRoom);
             currentRoom = nextRoom;
             currentRoom.printLocationInfo();
         }
@@ -196,6 +206,17 @@ public class Game
     private void showall()
     {
        parser.showAll();
+    }
+    private void undo()
+    {   if(!back.isEmpty())
+           { currentRoom  =  back.pop();
+             System.out.println(currentRoom.getDescription());
+
+           }
+        else
+        {
+            System.out.println("you have to move");
+        } 
     }
     /** 
      * "Quit" was entered. Check the rest of the command to see
