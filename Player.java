@@ -41,7 +41,7 @@ public class Player{
 	public void ShowItem()
 	{
 		for (Item e : item) {
-			System.out.println(e.GetDescription());
+			System.out.println(e.GetDescription()+" "+ e.GetWeight());
 		}
 		System.out.println("you have a weight of "+weight);
 	}

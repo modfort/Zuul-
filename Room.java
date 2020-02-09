@@ -107,7 +107,7 @@ public class Room
       if(this.item.isEmpty())
         System.out.println("the room doesnt have any item");
       for(Item e : this.item)
-        System.out.println(e.GetDescription());
+        System.out.println(e.GetDescription()+" "+e.GetWeight()+" kg");
       return 1;
     }
 
