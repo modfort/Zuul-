@@ -1,4 +1,6 @@
-/**
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;/**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
  *  can walk around some scenery. That's all. It should really be extended 
@@ -35,13 +37,22 @@ public class Game
     private void createRooms()
     {
         Room outside, theatre, pub, lab, office;
-      
+        //create the list of item
+        List<Item> element  = new ArrayList<Item>();
+        Item       meat     = new Item("Meat",2.2);
+        Item       knife    = new Item("Knife",0.9);
+        Item       gun      = new Item("Gun",1.3); 
+
+        element.add(meat);
+        element.add(knife);
+        element.add(gun);
+
         // create the rooms
-        outside = new Room("outside the main entrance of the university");
-        theatre = new Room("in a lecture theatre");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
+        outside             = new Room("outside the main entrance of the university");
+        theatre             = new Room("in a lecture theatre");
+        pub                 = new Room("in the campus pub");
+        lab                 = new Room("in a computing lab");
+        office              = new Room("in the computing admin office");
         
         // initialise room exits
         outside.setExits(null, theatre, lab, pub);
@@ -50,6 +61,10 @@ public class Game
         lab.setExits(outside, office, null, null);
         office.setExits(null, null, null, lab);
 
+        //initilase the item in a room
+        outside.SetItem(element);
+        pub.AddItem(meat);
+        office.AddItem(gun);
         currentRoom = outside;  // start game outside
     }
 
@@ -110,6 +125,8 @@ public class Game
            eat();
        else if(commandWord.equals("showall"))
             showall();
+        else if(commandWord.equals("printitem"))
+            currentRoom.PrintItem();
         else if (commandWord.equals("quit"))
             wantToQuit = quit(command);
         return wantToQuit;

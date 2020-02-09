@@ -1,6 +1,8 @@
 import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.ArrayList;
+
 /**
  * Class Room - a room in an adventure game.
  *
@@ -22,7 +24,7 @@ public class Room
     public Room southExit;
     public Room eastExit;
     public Room westExit;
-    private List<Item> item;
+    List<Item> item ;
 
     /**
      * Create a room described "description". Initially, it has
@@ -33,6 +35,7 @@ public class Room
     public Room(String description) 
     {
         this.description = description;
+        item  = new ArrayList<Item>();
     }
 
     /**
@@ -96,13 +99,24 @@ public class Room
     
         }
     
+        /*
+            return the list of object of a room
+        */
+    public int PrintItem()
+    { 
+      if(this.item.isEmpty())
+        System.out.println("the room doesnt have any item");
+      for(Item e : this.item)
+        System.out.println(e.toString());
+      return 1;
+    }
+
      /* @return The description of the room.
      */
-
-
     public String getDescription()
     {
         return description;
     }
+
 
 }
