@@ -24,17 +24,19 @@ import java.util.Deque;
 
 public class Game 
 {   
-    private Parser parser;
-    private Room currentRoom;
+    private Parser      parser;
+  //  private Room        player.GetRoom();
     private Deque<Room> back ;
+    private Player      player;
     /**
      * Create the game and initialise its internal map.
      */
     public Game() 
     {
+        parser              = new Parser();
+        back                = new ArrayDeque<Room>();
+        player              = new Player();
         createRooms();
-        parser = new Parser();
-        back   = new  ArrayDeque<Room>();
     }
 
     /**
@@ -71,7 +73,8 @@ public class Game
         outside.SetItem(element);
         pub.AddItem(meat);
         office.AddItem(gun);
-        currentRoom = outside;  // start game outside
+
+        player.SetRoom(outside);  // start game outside
     }
 
     /**
@@ -86,8 +89,8 @@ public class Game
                 
         boolean finished = false;
         while (! finished) {
-            Command command = parser.getCommand();
-            finished = processCommand(command);
+            Command command     = parser.getCommand();
+            finished            = processCommand(command);
         }
         System.out.println("Thank you for playing.  Good bye.");
     }
@@ -103,7 +106,7 @@ public class Game
         System.out.println("Type 'help' if you need help.");
         System.out.println();
         System.out.print("Exits: ");
-        currentRoom.printLocationInfo();
+        player.GetRoom().printLocationInfo();
     }
 
     /**
@@ -132,9 +135,9 @@ public class Game
        else if(commandWord.equals("showall"))
             showall();
         else if(commandWord.equals("printitem"))
-            currentRoom.PrintItem();
+            player.GetRoom().PrintItem();
         else if(commandWord.equals("undo"))
-                undo();
+            undo();
         else if (commandWord.equals("quit"))
             wantToQuit = quit(command);
         return wantToQuit;
@@ -173,44 +176,52 @@ public class Game
         // Try to leave current room.
         Room nextRoom = null;
         if(direction.equals("north")) {
-           nextRoom = currentRoom.northExit;
+           nextRoom = player.GetRoom().northExit;
 
         }
         if(direction.equals("east")) {
-            nextRoom = currentRoom.eastExit;
+            nextRoom = player.GetRoom().eastExit;
         }
         if(direction.equals("south")) {
-            nextRoom = currentRoom.southExit;
+            nextRoom = player.GetRoom().southExit;
         }
         if(direction.equals("west")) {
-            nextRoom = currentRoom.westExit;
+            nextRoom = player.GetRoom().westExit;
         }
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
         }
         else {
-            back.push(currentRoom);
-            currentRoom = nextRoom;
-            currentRoom.printLocationInfo();
+            back.push(player.GetRoom());
+            player.SetRoom(nextRoom); 
+            player.GetRoom().printLocationInfo();
         }
     }
+    //-----------------------------------------------
+
     private void look() 
     {   
-        System.out.println(currentRoom.getDescription());
+        System.out.println(player.GetRoom().getDescription());
     }
+    //-----------------------------------------------
     private void eat()
     {
         System.out.println("we have eat some meat");
     }
+        //-----------------------------------------------
+
     private void showall()
     {
        parser.showAll();
     }
+        //-----------------------------------------------
+
     private void undo()
     {   if(!back.isEmpty())
-           { currentRoom  =  back.pop();
-             System.out.println(currentRoom.getDescription());
+           { 
+             player.SetRoom(back.pop());
+             System.out.println(player.GetRoom().getDescription());
 
            }
         else
@@ -218,6 +229,9 @@ public class Game
             System.out.println("you have to move");
         } 
     }
+
+    //-----------------------------------------------
+
     /** 
      * "Quit" was entered. Check the rest of the command to see
      * whether we really quit the game.
