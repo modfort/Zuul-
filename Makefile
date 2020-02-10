@@ -13,11 +13,12 @@ CLASSES = \
         Test.java \
         Command.java \
         Room.java \
-        Item.java
+        Item.java \
+        Player.java
 
 default: classes
 
 classes: $(CLASSES:.java=.class)
 
 clean:
-	$(RM) *.class
+	$(RM) *.class *.ctxt
