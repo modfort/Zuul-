@@ -28,11 +28,12 @@ public class CommandWords
     TAKE,
     DROP,
     COOKIE,
+    INFO,
     UNKNOWN;
     }
-  //  public static final String[] validCommands = {
-    //    "go", "quit", "look","help","eat","showall","printitem","undo","take","drop","showitem","cookie"
-    //};
+  /*  public static final String[] validCommands = {
+        "go", "quit", "look","help","eat","showall","printitem","undo","take","drop","showitem","cookie"
+    };*/
     private HashMap<String, CommandWord> validCommands;
     /**
      * Constructor - initialise the command words.
@@ -41,9 +42,15 @@ public class CommandWords
     {
         validCommands = new HashMap<String, CommandWord>();
         validCommands.put("go", CommandWord.GO);
+        validCommands.put("info", CommandWord.INFO);
+
         validCommands.put("help", CommandWord.HELP);
         validCommands.put("quit", CommandWord.QUIT);
+        validCommands.put("exit", CommandWord.QUIT);
         validCommands.put("showitem", CommandWord.SHOWITEM);
+        validCommands.put("showall", CommandWord.SHOWALL);
+        validCommands.put("undo", CommandWord.UNDO);
+
         validCommands.put("printitem", CommandWord.PRINTITEM);
         validCommands.put("look", CommandWord.LOOK);
         validCommands.put("drop", CommandWord.DROP);
@@ -63,9 +70,21 @@ public class CommandWords
        return validCommands.containsKey(ele);
     }
 
-    public CommandWord CommandWord(String key )
+    public CommandWord get(String key )
     {
         return validCommands.get(key);
+    }
+
+    public HashMap<String, CommandWord>  GetCommand()
+    {
+        return validCommands;
+    }
+
+    public String CommandToString(){
+        String test = new String();
+        for (CommandWord myVar : CommandWord.values()) 
+            test    += myVar.name()+"\n";
+        return test ;      
     }
   
 }

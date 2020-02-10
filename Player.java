@@ -12,7 +12,6 @@ public class Player{
 
 	public Player()
 	{
-		this.name			= name;
 		item 				= new ArrayList<Item>();
 		life				= 100.0;
 		maxWeight 			= 20.0;
@@ -54,7 +53,21 @@ public class Player{
 				item.remove(item.indexOf(e));
 				return e;
 			}
-		item.remove(item.indexOf(ele));
+		System.out.println("you don't have this item");
 		return null;
+	}
+
+
+	public void cookie()
+	{
+			for(Item e : item)
+				if(e.GetDescription().equals("Cookie"))
+				{	
+					maxWeight	+= maxWeight/4;
+					System.out.println("now you have a capacity of "+maxWeight+" kg");
+					item.remove(item.indexOf(e));
+					return;
+				}
+			System.out.println("you dont have any cookie");	
 	}
 } 

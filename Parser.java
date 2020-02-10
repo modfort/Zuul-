@@ -37,6 +37,8 @@ public class Parser
     public Command getCommand() 
     {
         String inputLine;   // will hold the full input line
+        CommandWords  command = new CommandWords();
+        CommandWords.CommandWord type;
         String word1 = null;
         String word2 = null;
 
@@ -53,29 +55,30 @@ public class Parser
                 // note: we just ignore the rest of the input line.
             }
         }
-
+  
         // Now check whether this word is known. If so, create a command
         // with it. If not, create a "null" command (for unknown command).
-        if(commands.isCommand(word1)) {
-            return new Command(word1, word2);
+        if(command.isCommand(word1)) {
+                    type=command.get(word1);
+
+            return new Command(type, word2);
         }
         else {
             return new Command(null, word2); 
         }
     }
-    public void showAll()
-        {
-                
-            for(String command : commands.  validCommands) {
-            System.out.print(command + " ");
+
+
+
+   /* public void showAll()
+        {                
+            for(CommandWords.CommandWord command : commands.GetCommand()) {
+               System.out.println(command + " ");
          }        
     }
+*/
     public String GetAllCommand()
-    {   String comandlist=new String();
-
-                
-            for(String command : commands.  validCommands) 
-                comandlist+=command + " ";
-          return comandlist;
+    {
+        return commands.CommandToString();   
     }
 }

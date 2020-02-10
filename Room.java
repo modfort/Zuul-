@@ -66,6 +66,7 @@ public class Room
     {
         item.add(e);
     }
+    
     public Room getExits(String description) 
     {
        if(description.equals("north")  ){
@@ -86,15 +87,15 @@ public class Room
     public void printLocationInfo(){
 
             System.out.println("You are " + description);
-            System.out.print("Exits: ");
+            System.out.println("Exits: ");
             if(northExit != null)
-                System.out.print("north "+northExit.description);
+                System.out.println("north "+northExit.description);
             if(eastExit != null)
-                System.out.print("east "+eastExit.description);
+                System.out.println("east "+eastExit.description);
             if(southExit != null)
-                System.out.print("south "+southExit.description);
+                System.out.println("south "+southExit.description);
             if(westExit != null)
-                System.out.print("west "+westExit.description);
+                System.out.println("west "+westExit.description);
             System.out.println();
     
         }

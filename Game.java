@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+    import java.util.ArrayList;
 import java.util.ArrayDeque;
 import java.util.List;
 import java.util.ListIterator;
@@ -24,10 +24,10 @@ import java.util.Deque;
 
 public class Game 
 {   
-    private Parser      parser;
-  //  private Room        player.GetRoom();
-    private Deque<Room> back ;
-    private Player      player;
+    private Parser          parser;
+    private Deque<Room>     back ;
+    private Player          player;
+    private CommandWords    commandword;
     /**
      * Create the game and initialise its internal map.
      */
@@ -36,6 +36,7 @@ public class Game
         parser              = new Parser();
         back                = new ArrayDeque<Room>();
         player              = new Player();
+        commandword         = new CommandWords();
         createRooms();
     }
 
@@ -50,10 +51,12 @@ public class Game
         Item       meat     = new Item("Meat",2.2);
         Item       knife    = new Item("Knife",0.9);
         Item       gun      = new Item("Gun",1.3); 
+        Item       cookie   = new Item("Cookie",0.0);
 
         element.add(meat);
         element.add(knife);
         element.add(gun);
+        element.add(cookie);
 
         // create the rooms
         outside             = new Room("outside the main entrance of the university");
@@ -117,35 +120,38 @@ public class Game
     private boolean processCommand(Command command) 
     {
         boolean wantToQuit = false;
-
+        
         if(command.isUnknown()) {
             System.out.println("I don't know what you mean...");
             return false;
         }
 
-        String commandWord = command.getCommandWord();
-        if (commandWord.equals("help"))
-            printHelp();
-        else if (commandWord.equals("go"))
-            goRoom(command);
-        else if (commandWord.equals("look"))
-           look();
-        else if (commandWord.equals("eat"))
-           eat();
-       else if(commandWord.equals("showall"))
-            showall();
-        else if(commandWord.equals("printitem"))
-            player.GetRoom().PrintItem();
-        else if(commandWord.equals("showitem"))
+        if (command.getCommandWord().equals(CommandWords.CommandWord.HELP))
+                printHelp();
+        else if (command.getCommandWord().equals(CommandWords.CommandWord.GO))
+                goRoom(command);
+        else if (command.getCommandWord().equals(CommandWords.CommandWord.LOOK))
+                look();
+        else if (command.getCommandWord().equals(CommandWords.CommandWord.EAT))
+                eat();
+        else if(command.getCommandWord().equals(CommandWords.CommandWord.SHOWALL))
+                showall();
+        else if(command.getCommandWord().equals(CommandWords.CommandWord.INFO))
+                player.GetRoom().printLocationInfo();  
+        else if(command.getCommandWord().equals(CommandWords.CommandWord.PRINTITEM))
+                player.GetRoom().PrintItem();
+        else if(command.getCommandWord().equals(CommandWords.CommandWord.SHOWITEM))
                 player.ShowItem();
-        else if(commandWord.equals("undo"))
-            undo();
-        else if(commandWord.equals("take"))
-            take(command);
-        else if (commandWord.equals("drop"))
-            drop(command);
-        else if (commandWord.equals("quit"))
-            wantToQuit = quit(command);
+        else if(command.getCommandWord().equals(CommandWords.CommandWord.UNDO))
+                undo();
+        else if(command.getCommandWord().equals(CommandWords.CommandWord.TAKE))
+                take(command);
+        else if (command.getCommandWord().equals(CommandWords.CommandWord.DROP))
+                drop(command);
+        else if(command.getCommandWord().equals(CommandWords.CommandWord.COOKIE))
+                cookie();
+        else if (command.getCommandWord().equals(CommandWords.CommandWord.QUIT))
+                wantToQuit = quit(command);
         return wantToQuit;
     }
 
@@ -248,7 +254,7 @@ public class Game
 
     private void showall()
     {
-       parser.showAll();
+       System.out.println(parser.GetAllCommand());
     }
         //-----------------------------------------------
 
@@ -263,6 +269,11 @@ public class Game
         {
             System.out.println("you have to move");
         } 
+    }
+
+    private void cookie()
+    {
+        player.cookie();
     }
 
     //-----------------------------------------------

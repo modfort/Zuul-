@@ -14,10 +14,12 @@ public class Item
 	{
 		return description+" "+weight;
 	}
+
 	public double GetWeight()
 	{
 		return weight;
 	}
+
 	public String GetDescription()
 	{
 		return description;
