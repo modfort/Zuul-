@@ -8,20 +8,49 @@
  * @author  Michael Kolling and David J. Barnes
  * @version 2006.03.30
  */
-
+import java.util.HashMap;
 public class CommandWords
 {
     // a constant array that holds all valid command words
-    private static final String[] validCommands = {
-        "go", "quit", "look","help","eat",
-    };
-
+    public enum CommandWord
+    {
+    // A value for each command word, plus one for unrecognized
+    // commands.
+    GO,
+    QUIT,
+    HELP,
+    LOOK,
+    EAT,
+    SHOWALL,
+    PRINTITEM,
+    SHOWITEM,
+    UNDO,
+    TAKE,
+    DROP,
+    COOKIE,
+    UNKNOWN;
+    }
+  //  public static final String[] validCommands = {
+    //    "go", "quit", "look","help","eat","showall","printitem","undo","take","drop","showitem","cookie"
+    //};
+    private HashMap<String, CommandWord> validCommands;
     /**
      * Constructor - initialise the command words.
      */
     public CommandWords()
     {
-        // nothing to do at the moment...
+        validCommands = new HashMap<String, CommandWord>();
+        validCommands.put("go", CommandWord.GO);
+        validCommands.put("help", CommandWord.HELP);
+        validCommands.put("quit", CommandWord.QUIT);
+        validCommands.put("showitem", CommandWord.SHOWITEM);
+        validCommands.put("printitem", CommandWord.PRINTITEM);
+        validCommands.put("look", CommandWord.LOOK);
+        validCommands.put("drop", CommandWord.DROP);
+        validCommands.put("take", CommandWord.TAKE);
+        validCommands.put("eat", CommandWord.EAT);
+        validCommands.put("cookie", CommandWord.COOKIE);
+
     }
 
     /**
@@ -29,13 +58,14 @@ public class CommandWords
      * @return true if a given string is a valid command,
      * false if it isn't.
      */
-    public boolean isCommand(String aString)
+    public boolean isCommand(String ele)
     {
-        for(int i = 0; i < validCommands.length; i++) {
-            if(validCommands[i].equals(aString))
-                return true;
-        }
-        // if we get here, the string was not found in the commands
-        return false;
+       return validCommands.containsKey(ele);
     }
+
+    public CommandWord CommandWord(String key )
+    {
+        return validCommands.get(key);
+    }
+  
 }
