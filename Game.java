@@ -1,4 +1,4 @@
-    import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.ArrayDeque;
 import java.util.List;
 import java.util.ListIterator;
@@ -45,39 +45,68 @@ public class Game
      */
     private void createRooms()
     {
-        Room outside, theatre, pub, lab, office;
-        //create the list of item
-        List<Item> element  = new ArrayList<Item>();
-        Item       meat     = new Item("Meat",2.2);
-        Item       knife    = new Item("Knife",0.9);
-        Item       gun      = new Item("Gun",1.3); 
-        Item       cookie   = new Item("Cookie",0.0);
+        Room outside, mainhall, gaming, living, mainstairs, torture, firstfloor, chamber, bathroom, stairs, secondfloor, attic, secret, corridor;
 
-        element.add(meat);
-        element.add(knife);
-        element.add(gun);
+        //create the list of item
+        List<Item> element  = new ArrayList<Item>();    
+        Item        cookie          = new Item("Cookie",0.0);
+        Item        battery         = new Item("Battery", 5.0);
+        Item        heal            = new Item("Heal", 2.5);
+        Item        keysecret       = new Item("Keysecret", 1.0);
+        Item        keymain         = new Item("Keymain", 1.0);
+        Item        flashlight      = new Item("Flashlight", 5.0);
+
+        element.add(battery);
+        element.add(heal);
+        element.add(keysecret);
+        element.add(keymain);
+        element.add(flashlight);
         element.add(cookie);
 
+
         // create the rooms
-        outside             = new Room("outside the main entrance of the university");
-        theatre             = new Room("in a lecture theatre");
-        pub                 = new Room("in the campus pub");
-        lab                 = new Room("in a computing lab");
-        office              = new Room("in the computing admin office");
-        
-        // initialise room exits
-        outside.setExits(null, theatre, lab, pub);
-        theatre.setExits(null, null, null, outside);
-        pub.setExits(null, outside, null, null);
-        lab.setExits(outside, office, null, null);
-        office.setExits(null, null, null, lab);
+        outside             = new Room("outside the main entrance of the house");
+        mainhall            = new Room("You are in the main hall.");
+        gaming              = new Room("You are in the gaming room.");
+        living              = new Room("You are in the living room.");
+        mainstairs          = new Room("You are at the mainstars.");
+        firstfloor          = new Room("You are on the 1st floor.");
+        chamber             = new Room("You are in the chamber.");
+        bathroom            = new Room("You are in the bathroom.");
+        stairs              = new Room("You are at the stairs of the 1st floor.");
+        secondfloor         = new Room("You are on the 2nd floor.");
+        attic               = new Room("You are in the attic.");
+        corridor            = new Room("You are in the corridor.");
+        secret              = new Room("You are in the secret chamber.");
+        torture             = new Room("You are in the torture room.");
+
+        outside.setExits(mainhall, null, null, null);
+        mainhall.setExits(mainstairs, gaming, outside, living);
+        gaming.setExits(null, null, null, mainhall);
+        living.setExits(null, mainhall, null, null);
+        mainstairs.setExits(firstfloor, null, mainhall, null);
+        firstfloor.setExits(stairs, chamber, mainstairs, bathroom);
+        chamber.setExits(torture, null, null, firstfloor);
+        torture.setExits(null, null, chamber, null);
+        bathroom.setExits(null, firstfloor, null, null);
+        stairs.setExits(attic, corridor, firstfloor, null);
+        secondfloor.setExits(attic, corridor, stairs, null);
+        attic.setExits(null, null, secondfloor, null);
+        corridor.setExits(secret, null, null, secondfloor);
+        secret.setExits(null, null, corridor, null);
+
 
         //initilase the item in a room
-        outside.SetItem(element);
-        pub.AddItem(meat);
-        office.AddItem(gun);
+        gaming.AddItem(battery);
+        living.AddItem(cookie);
+        chamber.AddItem(keysecret);
+        bathroom.AddItem(heal);
+        attic.AddItem(battery);
+        secret.AddItem(flashlight);
+        secret.AddItem(keymain);
 
-        player.SetRoom(outside);  // start game outside
+        // start the game outside
+        player.SetRoom(outside);
     }
 
     /**
@@ -104,8 +133,8 @@ public class Game
     private void printWelcome()
     {
         System.out.println();
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
+        System.out.println("Welcome to Horror House !");
+        System.out.println("Horror House is a new, incredibly boring adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
         System.out.print("Exits: ");
@@ -165,7 +194,7 @@ public class Game
     private void printHelp() 
     {
         System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
+        System.out.println("in the horror house.");
         System.out.println();   
         System.out.println("Your command words are:");
         System.out.println(parser.GetAllCommand());
