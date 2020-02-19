@@ -40,13 +40,16 @@ public class CommandWords
      */
     public CommandWords()
     {
-        validCommands = new HashMap<String, CommandWord>();
+        validCommands   = new HashMap<String, CommandWord>();
+       
         validCommands.put("go", CommandWord.GO);
-        validCommands.put("info", CommandWord.INFO);
 
+        validCommands.put("info", CommandWord.INFO);
         validCommands.put("help", CommandWord.HELP);
+
         validCommands.put("quit", CommandWord.QUIT);
         validCommands.put("exit", CommandWord.QUIT);
+
         validCommands.put("showitem", CommandWord.SHOWITEM);
         validCommands.put("showall", CommandWord.SHOWALL);
         validCommands.put("undo", CommandWord.UNDO);
@@ -54,6 +57,7 @@ public class CommandWords
         validCommands.put("printitem", CommandWord.PRINTITEM);
         validCommands.put("look", CommandWord.LOOK);
         validCommands.put("drop", CommandWord.DROP);
+        
         validCommands.put("take", CommandWord.TAKE);
         validCommands.put("eat", CommandWord.EAT);
         validCommands.put("cookie", CommandWord.COOKIE);
