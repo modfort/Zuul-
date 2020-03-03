@@ -1,13 +1,15 @@
 public class Item
 {
 
-	private String description;
-	private double weight;
+	private String description , longdesc;
+	private double weight , price;
 
-	public Item(String des,double wei)
+	public Item(String des,double wei,String lon )
 	{
 		description=des;
 		this.weight=wei;
+		price      = 0;
+		longdesc   = lon ; 
 	}
 
 	public String ToString()
@@ -24,5 +26,8 @@ public class Item
 	{
 		return description;
 	}
-
+	public String GetLongDescription()
+	{
+		return longdesc;
+	}
 }

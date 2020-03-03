@@ -58,12 +58,12 @@ public class Game
 
         //create the list of item
         List<Item> element  = new ArrayList<Item>();    
-        Item        cookie          = new Item("Cookie",0.0);
-        Item        battery         = new Item("Battery", 5.0);
-        Item        heal            = new Item("Heal", 2.5);
-        Item        keysecret       = new Item("Keysecret", 1.0);
-        Item        keymain         = new Item("Keymain", 1.0);
-        Item        flashlight      = new Item("Flashlight", 5.0);
+        Item        cookie          = new Item("Cookie",0.0," ");
+        Item        battery         = new Item("Battery", 5.0," ");
+        Item        heal            = new Item("Heal", 2.5," ");
+        Item        keysecret       = new Item("Keysecret", 1.0," ");
+        Item        keymain         = new Item("Keymain", 1.0," ");
+        Item        flashlight      = new Item("Flashlight", 5.0," ");
 
         element.add(battery);
         element.add(heal);
@@ -74,20 +74,20 @@ public class Game
 
 
         // create the rooms
-        outside             = new Room("outside the main entrance of the house");
-        mainhall            = new Room("You are in the main hall.");
-        gaming              = new Room("You are in the gaming room.");
-        living              = new Room("You are in the living room.");
-        mainstairs          = new Room("You are at the mainstars.");
-        firstfloor          = new Room("You are on the 1st floor.");
-        chamber             = new Room("You are in the chamber.");
-        bathroom            = new Room("You are in the bathroom.");
-        stairs              = new Room("You are at the stairs of the 1st floor.");
-        secondfloor         = new Room("You are on the 2nd floor.");
-        attic               = new Room("You are in the attic.");
-        corridor            = new Room("You are in the corridor.");
-        secret              = new Room("You are in the secret chamber.");
-        torture             = new Room("You are in the torture room.");
+        outside             = new Room("outside the main entrance of the house","castle.gif");
+        mainhall            = new Room("You are in the main hall.","dungeon.gif");
+        gaming              = new Room("You are in the gaming room.","castle.gif");
+        living              = new Room("You are in the living room.","castle.gif");
+        mainstairs          = new Room("You are at the mainstars.","castle.gif");
+        firstfloor          = new Room("You are on the 1st floor.","castle.gif");
+        chamber             = new Room("You are in the chamber.","castle.gif");
+        bathroom            = new Room("You are in the bathroom.","castle.gif");
+        stairs              = new Room("You are at the stairs of the 1st floor.","castle.gif");
+        secondfloor         = new Room("You are on the 2nd floor.","castle.gif");
+        attic               = new Room("You are in the attic.","castle.gif");
+        corridor            = new Room("You are in the corridor.","castle.gif");
+        secret              = new Room("You are in the secret chamber.","castle.gif");
+        torture             = new Room("You are in the torture room.","castle.gif");
 
         outside.setExits(mainhall, null, null, null);
         mainhall.setExits(mainstairs, gaming, outside, living);
@@ -295,7 +295,9 @@ public class Game
            { 
              player.SetRoom(back.pop());
              gui.println(player.GetRoom().getDescription());
-
+            if(player.GetRoom().getImageName() != null)
+             gui.showImage(player.GetRoom().getImageName());
+       
            }
         else
         {
