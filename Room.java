@@ -24,7 +24,8 @@ public class Room
     public Room           southExit;
     public Room           eastExit;
     public Room           westExit;
-     
+     private String imageName;
+
     private List<Item>    item ;
 
     /**
@@ -33,10 +34,12 @@ public class Room
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description) 
+    public Room(String description,String image) 
     {
         this.description  = description;
         item              = new ArrayList<Item>();
+        imageName         = image;
+
     }
 
     /**
@@ -130,6 +133,9 @@ public class Room
     {
         return description;
     }
-
+  public String getImageName()
+  {
+    return imageName;
+  }
 
 }

@@ -134,7 +134,9 @@ public class Game
         gui.println("Type 'help' if you need help.");
         gui.println("");
         gui.println("Exits: ");
-        player.GetRoom().printLocationInfo();
+        gui.println(player.GetRoom().printLocationInfo());
+        gui.showImage(player.GetRoom().getImageName());
+
     }
 
     /**
@@ -234,6 +236,9 @@ public class Game
             back.push(player.GetRoom());
             player.SetRoom(nextRoom); 
             gui.println(player.GetRoom().printLocationInfo());
+            if(player.GetRoom().getImageName() != null)
+                gui.showImage(player.GetRoom().getImageName());
+       
         }
     }
 

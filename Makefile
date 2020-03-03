@@ -14,7 +14,8 @@ CLASSES = \
         Command.java \
         Room.java \
         Item.java \
-        Player.java
+        Player.java \
+        UserInterface.java
 
 default: classes
 
