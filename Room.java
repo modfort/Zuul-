@@ -24,6 +24,7 @@ public class Room
     public Room           southExit;
     public Room           eastExit;
     public Room           westExit;
+     
     private List<Item>    item ;
 
     /**
@@ -84,32 +85,32 @@ public class Room
         return null;
     }
    
-    public void printLocationInfo(){
-
-            System.out.println("You are " + description);
-            System.out.println("Exits: ");
+    public String printLocationInfo(){
+            String s =new String();
+           s+="You are " + description+"\n";
+           s+="Exits: "+"\n";
             if(northExit != null)
-                System.out.println("north "+northExit.description);
+               s+="north "+northExit.description+"\n";
             if(eastExit != null)
-                System.out.println("east "+eastExit.description);
+              s+="east "+eastExit.description+"\n";
             if(southExit != null)
-                System.out.println("south "+southExit.description);
+                s+="south "+southExit.description+"\n";
             if(westExit != null)
-                System.out.println("west "+westExit.description);
-            System.out.println();
+                s+="west "+westExit.description+"\n";
+           return s+"\n";
     
         }
     
         /*
             return the list of object of a room
         */
-    public int PrintItem()
-    { 
+    public String PrintItem()
+    { String s = new String();
       if(this.item.isEmpty())
-        System.out.println("the room doesnt have any item");
+        return "the room doesnt have any item";
       for(Item e : this.item)
-        System.out.println(e.GetDescription()+" "+e.GetWeight()+" kg");
-      return 1;
+        s+=e.GetDescription()+" "+e.GetWeight()+" kg";
+      return s+"\n";
     }
 
     public Item DeleteItem(String des)
@@ -121,7 +122,6 @@ public class Room
                return e;
             }
       }
-      System.out.println("we don't have this item");
       return null;
     }
      /* @return The description of the room.

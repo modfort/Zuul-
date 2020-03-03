@@ -37,12 +37,13 @@ public class Player{
 		}	
 	}
 
-	public void ShowItem()
-	{
+	public String ShowItem()
+	{	String s = new String();
 		for (Item e : item) {
-			System.out.println(e.GetDescription()+" "+ e.GetWeight());
+			s+=e.GetDescription()+" "+ e.GetWeight()+"\n";
 		}
-		System.out.println("you have a weight of "+weight);
+		s+="you have a weight of "+weight+"\n";
+		return s;
 	}
 
 	public Item DropItem(String ele)
@@ -53,21 +54,20 @@ public class Player{
 				item.remove(item.indexOf(e));
 				return e;
 			}
-		System.out.println("you don't have this item");
 		return null;
 	}
 
 
-	public void cookie()
-	{
+	public String cookie()
+	{		String s =new String();
 			for(Item e : item)
 				if(e.GetDescription().equals("Cookie"))
 				{	
 					maxWeight	+= maxWeight/4;
-					System.out.println("now you have a capacity of "+maxWeight+" kg");
+					s+="now you have a capacity of "+maxWeight+" kg\n";
 					item.remove(item.indexOf(e));
-					return;
+					return s ;
 				}
-			System.out.println("you dont have any cookie");	
+			return "you dont have any cookie\n";	
 	}
 } 

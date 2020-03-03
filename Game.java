@@ -28,6 +28,8 @@ public class Game
     private Deque<Room>     back ;
     private Player          player;
     private CommandWords    commandword;
+    private UserInterface gui;
+
     /**
      * Create the game and initialise its internal map.
      */
@@ -39,6 +41,13 @@ public class Game
         commandword         = new CommandWords();
         createRooms();
     }
+
+    public void setGUI(UserInterface userInterface)
+    {
+        gui = userInterface;
+        printWelcome();
+    }
+
 
     /**
      * Create all the rooms and link their exits together.
@@ -112,32 +121,19 @@ public class Game
     /**
      *  Main play routine.  Loops until end of play.
      */
-    public void play() 
-    {            
-        printWelcome();
-
-        // Enter the main command loop.  Here we repeatedly read commands and
-        // execute them until the game is over.
-                
-        boolean finished = false;
-        while (! finished) {
-            Command command     = parser.getCommand();
-            finished            = processCommand(command);
-        }
-        System.out.println("Thank you for playing.  Good bye.");
-    }
+   
 
     /**
      * Print out the opening message for the player.
      */
     private void printWelcome()
     {
-        System.out.println();
-        System.out.println("Welcome to Horror House !");
-        System.out.println("Horror House is a new, incredibly boring adventure game.");
-        System.out.println("Type 'help' if you need help.");
-        System.out.println();
-        System.out.print("Exits: ");
+        gui.println("");
+        gui.println("Welcome to Horror House !");
+        gui.println("Horror House is a new, incredibly boring adventure game.");
+        gui.println("Type 'help' if you need help.");
+        gui.println("");
+        gui.println("Exits: ");
         player.GetRoom().printLocationInfo();
     }
 
@@ -146,12 +142,13 @@ public class Game
      * @param command The command to be processed.
      * @return true If the command ends the game, false otherwise.
      */
-    private boolean processCommand(Command command) 
+    public boolean processCommand(String text) 
     {
         boolean wantToQuit = false;
-        
+        Command command     = parser.getCommand(text);
+
         if(command.isUnknown()) {
-            System.out.println("I don't know what you mean...");
+            gui.println("I don't know what you mean...");
             return false;
         }
 
@@ -166,11 +163,11 @@ public class Game
         else if(command.getCommandWord().equals(CommandWords.CommandWord.SHOWALL))
                 showall();
         else if(command.getCommandWord().equals(CommandWords.CommandWord.INFO))
-                player.GetRoom().printLocationInfo();  
+                gui.println(player.GetRoom().printLocationInfo());  
         else if(command.getCommandWord().equals(CommandWords.CommandWord.PRINTITEM))
-                player.GetRoom().PrintItem();
+                gui.println(player.GetRoom().PrintItem());
         else if(command.getCommandWord().equals(CommandWords.CommandWord.SHOWITEM))
-                player.ShowItem();
+               gui.println(player.ShowItem());
         else if(command.getCommandWord().equals(CommandWords.CommandWord.UNDO))
                 undo();
         else if(command.getCommandWord().equals(CommandWords.CommandWord.TAKE))
@@ -180,7 +177,7 @@ public class Game
         else if(command.getCommandWord().equals(CommandWords.CommandWord.COOKIE))
                 cookie();
         else if (command.getCommandWord().equals(CommandWords.CommandWord.QUIT))
-                wantToQuit = quit(command);
+                quit(command);
         return wantToQuit;
     }
 
@@ -193,11 +190,11 @@ public class Game
      */
     private void printHelp() 
     {
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("in the horror house.");
-        System.out.println();   
-        System.out.println("Your command words are:");
-        System.out.println(parser.GetAllCommand());
+        gui.println("You are lost. You are alone. You wander");
+        gui.println("in the horror house.");
+        gui.println("\n");   
+        gui.println("Your command words are:");
+        gui.println(parser.GetCommandList());
     }
 
     /** 
@@ -208,7 +205,7 @@ public class Game
     {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
-            System.out.println("Go where?");
+            gui.println("Go where?");
             return;
         }
 
@@ -231,12 +228,12 @@ public class Game
         }
 
         if (nextRoom == null) {
-            System.out.println("There is no door!");
+            gui.println("There is no door!");
         }
         else {
             back.push(player.GetRoom());
             player.SetRoom(nextRoom); 
-            player.GetRoom().printLocationInfo();
+            gui.println(player.GetRoom().printLocationInfo());
         }
     }
 
@@ -245,13 +242,14 @@ public class Game
     {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
-            System.out.println("take what?");
+            gui.println("take what?");
             return;
         }
        String item      = command.getSecondWord();
        Item e           = player.GetRoom().DeleteItem(item);
        if(e  ==  null)
-            return;
+            {   gui.println("we dont have this item\n");
+                return;}
         player.AddItem(e);
 
 
@@ -261,7 +259,7 @@ public class Game
     {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
-            System.out.println("drop what?");
+            gui.println("drop what?");
             return;
         }
        Item ele         = player.DropItem(command.getSecondWord());
@@ -272,18 +270,18 @@ public class Game
 
     private void look() 
     {   
-        System.out.println(player.GetRoom().getDescription());
+        gui.println(player.GetRoom().getDescription());
     }
     //-----------------------------------------------
     private void eat()
     {
-        System.out.println("we have eat some meat");
+        gui.println("we have eat some meat");
     }
         //-----------------------------------------------
 
     private void showall()
     {
-       System.out.println(parser.GetAllCommand());
+       gui.println(parser.GetCommandList());
     }
         //-----------------------------------------------
 
@@ -291,18 +289,18 @@ public class Game
     {   if(!back.isEmpty())
            { 
              player.SetRoom(back.pop());
-             System.out.println(player.GetRoom().getDescription());
+             gui.println(player.GetRoom().getDescription());
 
            }
         else
         {
-            System.out.println("you have to move");
+            gui.println("you have to move");
         } 
     }
 
     private void cookie()
     {
-        player.cookie();
+        gui.println(player.cookie());
     }
 
     //-----------------------------------------------
@@ -312,16 +310,13 @@ public class Game
      * whether we really quit the game.
      * @return true, if this command quits the game, false otherwise.
      */
-    private boolean quit(Command command) 
+    private void quit(Command command) 
     {
-        if(command.hasSecondWord()) {
-            System.out.println("Quit what?");
-            return false;
-        }
-        else {
-            return true;  // signal that we want to quit
-        }
+            gui.println("Thank you for playing.  Good bye.");
+           gui.enable(false);
+
     }
+    
     
     
 

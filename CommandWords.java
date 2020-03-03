@@ -84,10 +84,10 @@ public class CommandWords
         return validCommands;
     }
 
-    public String CommandToString(){
+    public String GetCommandList(){
         String test = new String();
-        for (CommandWord myVar : CommandWord.values()) 
-            test    += myVar.name()+"\n";
+        for (String myVar : validCommands.keySet()) 
+            test    += myVar+"\n";
         return test ;      
     }
   
