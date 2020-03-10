@@ -2,6 +2,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashMap;
 
 /**
  * Class Room - a room in an adventure game.
@@ -20,11 +22,8 @@ import java.util.ArrayList;
 public class Room 
 {
     public String         description;
-    public Room           northExit;
-    public Room           southExit;
-    public Room           eastExit;
-    public Room           westExit;
-     private String imageName;
+    private HashMap<String, Room> exits;
+    private String imageName;
 
     private List<Item>    item ;
 
@@ -39,28 +38,27 @@ public class Room
         this.description  = description;
         item              = new ArrayList<Item>();
         imageName         = image;
+        exits = new HashMap<String, Room>();
 
+    }
+
+    public void setExit(String direction, Room neighbor) 
+    {
+        exits.put(direction, neighbor);
     }
 
     /**
-     * Define the exits of this room.  Every direction either leads
-     * to another room or is null (no exit there).
-     * @param north The north exit.
-     * @param east The east east.
-     * @param south The south exit.
-     * @param west The west exit.
+     * Return a string describing the room's exits, for example
+     * "Exits: north west".
      */
-    public void setExits(Room north, Room east, Room south, Room west) 
+    private String getExitString()
     {
-        if(north != null)
-            northExit       = north;
-        if(east != null)
-            eastExit        = east;
-        if(south != null)
-            southExit       = south;
-        if(west != null)
-            westExit        = west;
+        StringBuilder returnString = new StringBuilder( "Exits:" );
+        for ( String vS : exits.keySet() )
+            returnString.append( " " + vS );
+        return returnString.toString();
     }
+
     public void SetItem(List<Item>e)
     {
         item                = e;
@@ -71,42 +69,11 @@ public class Room
         item.add(e);
     }
     
-    public Room getExits(String description) 
+    public Room getExit(String direction) 
     {
-       if(description.equals("north")  ){
-          return northExit;
-        }
-        if(description.equals("east") ) {
-        return eastExit;
-        }
-        if(description.equals("south") ) {
-        return southExit;
-        }
-        if(description.equals("west")) {
-        return westExit;
-        }
-        return null;
+        return exits.get(direction);
     }
    
-    public String printLocationInfo(){
-            String s =new String();
-           s+="You are " + description+"\n";
-           s+="Exits: "+"\n";
-            if(northExit != null)
-               s+="north "+northExit.description+"\n";
-            if(eastExit != null)
-              s+="east "+eastExit.description+"\n";
-            if(southExit != null)
-                s+="south "+southExit.description+"\n";
-            if(westExit != null)
-                s+="west "+westExit.description+"\n";
-           return s+"\n";
-    
-        }
-    
-        /*
-            return the list of object of a room
-        */
     public String PrintItem()
     { String s = new String();
       if(this.item.isEmpty())
@@ -129,13 +96,24 @@ public class Room
     }
      /* @return The description of the room.
      */
-    public String getDescription()
+    public String getShortDescription()
     {
         return description;
     }
-  public String getImageName()
-  {
-    return imageName;
-  }
+
+    /**
+     * Return a long description of this room, in the form:
+     *     You are in the kitchen.
+     *     Exits: north west
+     */
+    public String getLongDescription()
+    {
+        return "You are " + description + ".\n" + getExitString();
+    }
+
+    public String getImageName()
+    {
+      return imageName;
+    }
 
 }
