@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.net.URL;
 import java.awt.image.*;
 
+
 /**
  * This class implements a simple graphical user interface with a text entry
  * area, a text output area and an optional image.
@@ -19,6 +20,9 @@ public class UserInterface implements ActionListener
     private JTextField      entryField;
     private JTextArea       log;
     private JLabel          image;
+    private JPanel     button;
+    private JButton    buttonN, buttonS ,buttonE, buttonW, buttonU, buttonD;
+    private JButton    buttonEat, buttonLook, buttonHelp;
 
     /**
      * Construct a UserInterface. As a parameter, a Game Engine
@@ -56,7 +60,7 @@ public class UserInterface implements ActionListener
      */
     public void showImage(String imageName)
     {
-        URL imageURL = this.getClass().getClassLoader().getResource(imageName);
+        URL imageURL = getClass().getClassLoader().getResource(imageName);
         if(imageURL == null)
             System.out.println("image not found");
         else {
@@ -92,11 +96,13 @@ public class UserInterface implements ActionListener
 
         JPanel panel = new JPanel();
         image = new JLabel();
+        makeBoutonBar();
 
         panel.setLayout(new BorderLayout());
         panel.add(image, BorderLayout.NORTH);
         panel.add(listScroller, BorderLayout.CENTER);
         panel.add(entryField, BorderLayout.SOUTH);
+        panel.add(button, BorderLayout.EAST );
 
         myFrame.getContentPane().add(panel, BorderLayout.CENTER);
 
@@ -112,11 +118,56 @@ public class UserInterface implements ActionListener
         entryField.requestFocus();
     }
 
+    public void makeBoutonBar()
+    {
+        button = new JPanel();
+        button.setLayout(new GridLayout(0,1,3,5));
+        
+        buttonN = new JButton("north");        
+        buttonN.addActionListener(this);
+        buttonS = new JButton("south");
+        buttonS.addActionListener(this);
+        buttonE = new JButton("east");
+        buttonE.addActionListener(this);
+        buttonW = new JButton("west");
+        buttonW.addActionListener(this);
+        buttonEat = new JButton("eat"); 
+        buttonEat.addActionListener(this);
+        buttonLook = new JButton("look"); 
+        buttonLook.addActionListener(this);
+        buttonHelp = new JButton("help"); 
+        buttonHelp.addActionListener(this);
+
+        button.add( buttonN);
+        button.add( buttonS);
+        button.add( buttonE);
+        button.add( buttonW);
+        button.add( buttonEat);
+        button.add( buttonHelp);
+        button.add( buttonLook);
+
+    }
+
     /**
      * Actionlistener interface for entry textfield.
      */
     public void actionPerformed(ActionEvent e) 
-    {
+    {   
+        if(e.getSource() == buttonN){ 
+            engine.processCommand("go north");}
+        if(e.getSource() == buttonS){ 
+            engine.processCommand("go south");}
+        if(e.getSource() == buttonE){ 
+            engine.processCommand("go east");}
+        if(e.getSource() == buttonW){ 
+            engine.processCommand("go west");}
+        if(e.getSource() == buttonEat){ 
+            engine.processCommand("eat");}
+        if(e.getSource() == buttonLook){ 
+            engine.processCommand("look");}
+        if(e.getSource() == buttonHelp){ 
+            engine.processCommand("help");}
+        if(e.getSource() == entryField)
         // no need to check the type of action at the moment.
         // there is only one possible action: text entry
         processCommand();
@@ -134,4 +185,6 @@ public class UserInterface implements ActionListener
 
         engine.processCommand(input);
     }
+
+    
 }
